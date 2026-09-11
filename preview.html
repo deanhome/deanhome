@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DEAN — Videographer &amp; Director of Photography</title>
+<script>document.documentElement.classList.replace('no-js','js');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="wp-content/themes/dean-videographer/style.css">
+<style>
+  /* preview-only: fix image paths without PHP get_template_directory_uri() */
+  .hero-bg{ background-image: linear-gradient(180deg, rgba(10,11,8,.55), rgba(10,11,8,.85) 70%, var(--color-bg) 100%), url('wp-content/themes/dean-videographer/assets/images/hero-camera.jpg'); }
+  .showreel-frame{ background: #000 url('wp-content/themes/dean-videographer/assets/images/hero-camera.jpg') center/cover; }
+  .equipment-bg{ background: linear-gradient(180deg, rgba(14,15,11,.55), rgba(14,15,11,.9)), url('wp-content/themes/dean-videographer/assets/images/hero-camera.jpg') center/cover; }
+  .preview-banner{ position:fixed; bottom:0; left:0; right:0; z-index:999; background:#c9a227; color:#181a11; text-align:center; font:600 12px/1 Jost,sans-serif; letter-spacing:.08em; text-transform:uppercase; padding:.6em; }
+</style>
+</head>
+<body>
+
+<header class="site-header" id="site-header">
+  <div class="container">
+    <a class="site-logo" href="#">D<span>EAN</span></a>
+    <nav class="main-nav" id="main-nav">
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#equipment">Equipment</a></li>
+        <li><a href="#process">Process</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-controls="main-nav" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="main-content">
+
+  <section class="hero">
+    <div class="hero-bg-wrap">
+      <div class="hero-bg" id="hero-bg"></div>
+      <div class="hero-grain"></div>
+    </div>
+    <div class="container">
+      <p class="hero-kicker">Videographer &amp; Director of Photography</p>
+      <h1>Stories, framed <em>in motion.</em></h1>
+      <p class="hero-sub">Cinematic video production for brands, weddings and films — crafted with a sharp eye for light, pace and detail.</p>
+      <div class="hero-cta">
+        <a href="#work" class="btn btn-solid">View Showreel</a>
+        <a href="#contact" class="btn">Book a Project</a>
+      </div>
+    </div>
+    <div class="scroll-cue"><span>Scroll</span><span class="line"></span></div>
+  </section>
+
+  <section class="section scene" id="about">
+    <div class="container about">
+      <div class="reveal" data-effect="tilt-left">
+        <div class="about-portrait">
+          <img src="wp-content/themes/dean-videographer/assets/images/portrait-dean.png" alt="Portrait of the videographer">
+          <div class="about-portrait-frame"></div>
+        </div>
+      </div>
+      <div class="reveal" data-effect="tilt-right">
+        <p class="eyebrow">About</p>
+        <h2>Behind the lens</h2>
+        <p>I'm a videographer and director of photography with over a decade behind the camera, translating ideas into footage that feels as good as it looks. From boardrooms to ceremonies, I bring a filmmaker's eye to every frame — composed, patient and deliberate.</p>
+        <div class="about-stats">
+          <div><strong>12+</strong><span>Years Shooting</span></div>
+          <div><strong>240</strong><span>Projects Delivered</span></div>
+          <div><strong>30+</strong><span>Awards &amp; Features</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt scene" id="services">
+    <div class="container">
+      <div class="section-head reveal" data-effect="rise">
+        <p class="eyebrow">Services</p>
+        <h2>What I bring to set</h2>
+      </div>
+      <div class="services-grid reveal-group">
+        <div class="service-card reveal" data-effect="rise"><span class="num">01</span><h3>Commercial</h3><p>Brand films and product spots shot to convert, edited to keep attention.</p></div>
+        <div class="service-card reveal" data-effect="rise"><span class="num">02</span><h3>Weddings</h3><p>Documentary-style coverage of your day, cut into a film you'll actually rewatch.</p></div>
+        <div class="service-card reveal" data-effect="rise"><span class="num">03</span><h3>Music Videos</h3><p>Concept-driven visuals built around the track's energy and story.</p></div>
+        <div class="service-card reveal" data-effect="rise"><span class="num">04</span><h3>Corporate</h3><p>Training, culture and event video that looks as sharp as the brand behind it.</p></div>
+        <div class="service-card reveal" data-effect="rise"><span class="num">05</span><h3>Aerial / Drone</h3><p>FAA-certified aerial coverage for scale, scope and cinematic establishing shots.</p></div>
+        <div class="service-card reveal" data-effect="rise"><span class="num">06</span><h3>Post-Production</h3><p>Editing, color grading and sound design that ties every shot together.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section scene" id="work">
+    <div class="container">
+      <div class="section-head reveal" data-effect="rise">
+        <p class="eyebrow">Featured Work</p>
+        <h2>The showreel</h2>
+      </div>
+      <div class="showreel reveal" data-effect="zoom">
+        <a class="showreel-frame" href="#" aria-label="Play showreel">
+          <span class="showreel-play"></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="equipment" id="equipment">
+    <div class="equipment-bg" id="equipment-bg"></div>
+    <div class="container">
+      <div class="section-head reveal" data-effect="rise">
+        <p class="eyebrow">On Location</p>
+        <h2>The kit behind the shot</h2>
+      </div>
+      <ul class="equipment-list reveal" data-effect="rise">
+        <li><span>Cinema Camera</span><span>6K RAW body, dual native ISO</span></li>
+        <li><span>Prime Lenses</span><span>Full cinema prime set, T1.5</span></li>
+        <li><span>Stabilization</span><span>Gimbal + fluid head tripod</span></li>
+        <li><span>Aerial</span><span>FAA Part 107 licensed drone</span></li>
+        <li><span>Audio</span><span>Wireless lav + shotgun mic kit</span></li>
+        <li><span>Lighting</span><span>LED panel + tungsten Fresnel kit</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section scene" id="process">
+    <div class="container">
+      <div class="section-head reveal" data-effect="rise">
+        <p class="eyebrow">Process</p>
+        <h2>From concept to delivery</h2>
+      </div>
+      <div class="process-grid reveal-group">
+        <div class="process-step reveal" data-effect="flip-up"><h3>Concept</h3><p>We define the story, the shot list and the deliverables before anything is booked.</p></div>
+        <div class="process-step reveal" data-effect="flip-up"><h3>Shoot</h3><p>On-set direction, lighting and camera work focused on getting it right in-camera.</p></div>
+        <div class="process-step reveal" data-effect="flip-up"><h3>Edit</h3><p>Structure, pacing and color grading in a private review cut for your notes.</p></div>
+        <div class="process-step reveal" data-effect="flip-up"><h3>Deliver</h3><p>Final files exported for every platform you need — web, social and broadcast.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt scene">
+    <div class="container">
+      <div class="section-head reveal" data-effect="rise">
+        <p class="eyebrow">Kind Words</p>
+        <h2>What clients say</h2>
+      </div>
+      <div class="testimonial-grid reveal-group">
+        <div class="testimonial-card reveal" data-effect="rise"><p>&ldquo;Dean turned our launch footage into something we're still using a year later. Effortless to work with.&rdquo;</p><div class="testimonial-name"><span class="avatar-dot">M</span><div><strong>M. Alvarez</strong><br><span>Brand Director</span></div></div></div>
+        <div class="testimonial-card reveal" data-effect="rise"><p>&ldquo;Our wedding film made half the room cry. He captured moments we didn't even know happened.&rdquo;</p><div class="testimonial-name"><span class="avatar-dot">S</span><div><strong>S. &amp; J. Whitfield</strong><br><span>Clients</span></div></div></div>
+        <div class="testimonial-card reveal" data-effect="rise"><p>&ldquo;Fast, professional, and the aerial shots elevated the entire project.&rdquo;</p><div class="testimonial-name"><span class="avatar-dot">R</span><div><strong>R. Okafor</strong><br><span>Producer</span></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta scene" id="contact">
+    <div class="container">
+      <p class="eyebrow reveal" data-effect="rise" style="justify-content:center;">Let's Work Together</p>
+      <h2 class="reveal" data-effect="rise">Have a story worth filming?</h2>
+      <a href="mailto:hello@deanvideography.com" class="btn btn-solid reveal" data-effect="zoom">Start a Project</a>
+      <div class="contact-details reveal" data-effect="rise">
+        <a href="mailto:hello@deanvideography.com">hello@deanvideography.com</a>
+        <a href="tel:+15550192847">+1 (555) 019-2847</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="footer-fine">© 2026 Dean Videography. All rights reserved.</p>
+    <ul class="footer-social">
+      <li><a href="#">Instagram</a></li>
+      <li><a href="#">Vimeo</a></li>
+      <li><a href="#">YouTube</a></li>
+    </ul>
+  </div>
+</footer>
+
+<div class="preview-banner">Static preview — build this into the WordPress theme in wp-content/themes/dean-videographer</div>
+
+<script src="wp-content/themes/dean-videographer/assets/js/scroll.js"></script>
+</body>
+</html>

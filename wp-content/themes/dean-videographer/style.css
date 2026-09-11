@@ -1,0 +1,376 @@
+/*
+Theme Name: Dean Videographer 3D
+Theme URI: https://example.com
+Author: Dean
+Author URI: https://example.com
+Description: A cinematic, 3D scroll-driven one-page portfolio theme for a videographer / director of photography. Built with parallax hero, scroll-reveal panels and tilt interactions.
+Version: 1.0.0
+Requires at least: 6.0
+Requires PHP: 7.4
+Text Domain: dean-videographer
+*/
+
+/* ==========================================================================
+   0. Design tokens
+   ========================================================================== */
+:root{
+  --color-bg: #0e0f0b;
+  --color-bg-alt: #15170f;
+  --color-panel: #1a1c14;
+  --color-olive: #4b5320;
+  --color-olive-light: #6b7a3a;
+  --color-gold: #c9a227;
+  --color-text: #f3f1e8;
+  --color-text-dim: #b9b6a7;
+  --color-border: rgba(243,241,232,0.12);
+
+  --font-display: "Cormorant Garamond", "Playfair Display", Georgia, serif;
+  --font-body: "Jost", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --container: 1200px;
+  --gutter: clamp(1.25rem, 4vw, 4rem);
+  --section-space: clamp(4rem, 10vw, 9rem);
+
+  --ease: cubic-bezier(.22,.61,.36,1);
+}
+
+/* ==========================================================================
+   1. Reset & base
+   ========================================================================== */
+*, *::before, *::after{ box-sizing: border-box; }
+html{ scroll-behavior: smooth; }
+body{
+  margin:0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img{ max-width:100%; display:block; }
+a{ color: inherit; text-decoration:none; }
+ul{ margin:0; padding:0; list-style:none; }
+h1,h2,h3,h4{ font-family: var(--font-display); font-weight: 600; margin: 0 0 .5em; line-height: 1.1; }
+p{ margin: 0 0 1em; color: var(--color-text-dim); }
+.container{ max-width: var(--container); margin: 0 auto; padding: 0 var(--gutter); }
+
+.eyebrow{
+  display:inline-flex; align-items:center; gap:.6em;
+  font-family: var(--font-body); text-transform: uppercase;
+  letter-spacing: .25em; font-size: .72rem; color: var(--color-gold);
+  margin-bottom: 1.1em;
+}
+.eyebrow::before{ content:""; width: 2.5em; height:1px; background: var(--color-gold); }
+
+.btn{
+  display:inline-flex; align-items:center; gap:.6em;
+  padding: .95em 2em; border: 1px solid var(--color-gold);
+  color: var(--color-text); font-family: var(--font-body);
+  text-transform: uppercase; letter-spacing:.15em; font-size:.78rem;
+  border-radius: 2px; transition: transform .4s var(--ease), background .4s var(--ease), color .4s var(--ease);
+  background: transparent;
+}
+.btn:hover{ background: var(--color-gold); color:#181a11; transform: translateY(-3px); }
+.btn.btn-solid{ background: var(--color-olive); border-color: var(--color-olive); }
+.btn.btn-solid:hover{ background: var(--color-gold); border-color: var(--color-gold); }
+
+/* ==========================================================================
+   2. Scroll-scene / 3D perspective plumbing
+   ========================================================================== */
+.scene{
+  perspective: 1400px;
+  perspective-origin: 50% 40%;
+}
+
+/* Default hidden state before reveal (progressive enhancement) */
+.reveal{
+  opacity: 0;
+  transition: opacity 1s var(--ease), transform 1s var(--ease);
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+}
+.reveal.is-in{ opacity: 1; transform: none !important; }
+
+.reveal[data-effect="rise"]{ transform: translateY(70px) rotateX(8deg); }
+.reveal[data-effect="tilt-left"]{ transform: translateX(-80px) rotateY(18deg) translateZ(-40px); }
+.reveal[data-effect="tilt-right"]{ transform: translateX(80px) rotateY(-18deg) translateZ(-40px); }
+.reveal[data-effect="zoom"]{ transform: scale(.86) translateZ(-120px); }
+.reveal[data-effect="flip-up"]{ transform: rotateX(-35deg) translateY(60px); transform-origin: bottom center; }
+
+/* stagger children of a group */
+.reveal-group .reveal:nth-child(1){ transition-delay: 0s; }
+.reveal-group .reveal:nth-child(2){ transition-delay: .12s; }
+.reveal-group .reveal:nth-child(3){ transition-delay: .24s; }
+.reveal-group .reveal:nth-child(4){ transition-delay: .36s; }
+.reveal-group .reveal:nth-child(5){ transition-delay: .48s; }
+.reveal-group .reveal:nth-child(6){ transition-delay: .6s; }
+
+/* No-JS fallback: show everything, skip fancy transforms */
+html.no-js .reveal{ opacity:1; transform:none; transition:none; }
+
+@media (prefers-reduced-motion: reduce){
+  .reveal{ transition: opacity .3s linear !important; transform:none !important; }
+  html{ scroll-behavior: auto; }
+}
+
+/* ==========================================================================
+   3. Site header / nav
+   ========================================================================== */
+.site-header{
+  position: fixed; top:0; left:0; right:0; z-index: 100;
+  padding: 1.4rem 0;
+  transition: background .4s var(--ease), padding .4s var(--ease), backdrop-filter .4s var(--ease);
+}
+.site-header.is-scrolled{
+  background: rgba(14,15,11,0.86);
+  backdrop-filter: blur(10px);
+  padding: .9rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+.site-header .container{ display:flex; align-items:center; justify-content:space-between; }
+.site-logo{ font-family: var(--font-display); font-size: 1.5rem; letter-spacing: .08em; }
+.site-logo span{ color: var(--color-gold); }
+.main-nav ul{ display:flex; gap: 2.4rem; }
+.main-nav a{
+  font-size:.82rem; text-transform: uppercase; letter-spacing:.14em;
+  position:relative; padding-bottom:.3em;
+}
+.main-nav a::after{
+  content:""; position:absolute; left:0; bottom:0; height:1px; width:0;
+  background: var(--color-gold); transition: width .35s var(--ease);
+}
+.main-nav a:hover::after, .main-nav a.active::after{ width:100%; }
+
+.nav-toggle{
+  display:none; flex-direction:column; gap:5px; background:none; border:0; cursor:pointer; z-index:110;
+}
+.nav-toggle span{
+  width:26px; height:2px; background: var(--color-text); display:block;
+  transition: transform .35s var(--ease), opacity .35s var(--ease);
+}
+.nav-toggle[aria-expanded="true"] span:nth-child(1){ transform: translateY(7px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span:nth-child(2){ opacity:0; }
+.nav-toggle[aria-expanded="true"] span:nth-child(3){ transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 860px){
+  .main-nav{
+    position: fixed; inset: 0; background: var(--color-bg);
+    display:flex; align-items:center; justify-content:center;
+    transform: translateY(-100%); transition: transform .5s var(--ease);
+  }
+  .main-nav.is-open{ transform: translateY(0); }
+  .main-nav ul{ flex-direction:column; text-align:center; gap:2rem; }
+  .main-nav a{ font-size:1.1rem; }
+  .nav-toggle{ display:flex; }
+}
+
+/* ==========================================================================
+   4. Hero
+   ========================================================================== */
+.hero{
+  position: relative;
+  min-height: 100vh;
+  display:flex; align-items:center;
+  overflow:hidden;
+  isolation:isolate;
+}
+.hero-bg-wrap{ position:absolute; inset:0; z-index:-2; }
+.hero-bg{
+  position:absolute; inset:-10% -10% -10% -10%;
+  background-image: linear-gradient(180deg, rgba(10,11,8,.55), rgba(10,11,8,.85) 70%, var(--color-bg) 100%), url('assets/images/hero-camera.jpg');
+  background-size: cover; background-position: center;
+  will-change: transform;
+}
+.hero-grain{
+  position:absolute; inset:0; z-index:-1;
+  background-image: radial-gradient(circle at 20% 20%, rgba(201,162,39,0.08), transparent 45%);
+}
+.hero .container{ padding-top: 6rem; }
+.hero-kicker{
+  font-size:.8rem; letter-spacing:.3em; text-transform:uppercase; color: var(--color-gold);
+  display:flex; align-items:center; gap:.8em; margin-bottom:1.4rem;
+}
+.hero-kicker::before{ content:""; width:3em; height:1px; background: var(--color-gold); }
+.hero h1{
+  font-size: clamp(2.6rem, 7vw, 5.6rem);
+  color: var(--color-text);
+  max-width: 15ch;
+}
+.hero h1 em{ font-style: italic; color: var(--color-olive-light); }
+.hero-sub{
+  max-width: 46ch; font-size: 1.15rem; color: var(--color-text-dim);
+  margin-bottom: 2.2rem;
+}
+.hero-cta{ display:flex; gap:1.2rem; flex-wrap:wrap; }
+
+.scroll-cue{
+  position:absolute; bottom: 2.4rem; left:50%; transform: translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:.6rem;
+  font-size:.68rem; letter-spacing:.3em; text-transform:uppercase; color: var(--color-text-dim);
+}
+.scroll-cue .line{
+  width:1px; height:48px; background: linear-gradient(var(--color-gold), transparent);
+  animation: scrollcue 2.2s infinite ease-in-out;
+}
+@keyframes scrollcue{
+  0%{ transform: scaleY(0); transform-origin: top; }
+  50%{ transform: scaleY(1); transform-origin: top; }
+  50.01%{ transform-origin: bottom; }
+  100%{ transform: scaleY(0); transform-origin: bottom; }
+}
+
+/* ==========================================================================
+   5. Section shell
+   ========================================================================== */
+.section{ padding: var(--section-space) 0; position: relative; }
+.section-head{ max-width: 640px; margin-bottom: 3.5rem; }
+.section-head h2{ font-size: clamp(2rem, 4vw, 3rem); }
+.section-alt{ background: var(--color-bg-alt); }
+
+/* ==========================================================================
+   6. About
+   ========================================================================== */
+.about{ display:grid; grid-template-columns: .85fr 1.15fr; gap: clamp(2rem, 6vw, 5rem); align-items:center; }
+.about-portrait{
+  position:relative; border-radius: 4px; overflow:hidden;
+  aspect-ratio: 3/4;
+  box-shadow: 0 40px 80px -30px rgba(0,0,0,.7);
+  transform-style: preserve-3d;
+}
+.about-portrait img{ width:100%; height:100%; object-fit:cover; object-position: top center; }
+.about-portrait::after{
+  content:""; position:absolute; inset:0;
+  background: linear-gradient(160deg, rgba(75,83,32,.25), transparent 55%);
+  mix-blend-mode: overlay;
+}
+.about-portrait-frame{
+  position:absolute; inset: 18px; border: 1px solid rgba(243,241,232,.35);
+  pointer-events:none;
+}
+.about-stats{ display:flex; gap: 2.4rem; margin-top: 2.2rem; }
+.about-stats div strong{ display:block; font-family: var(--font-display); font-size:2rem; color: var(--color-gold); }
+.about-stats div span{ font-size:.78rem; text-transform:uppercase; letter-spacing:.12em; color: var(--color-text-dim); }
+
+@media (max-width: 860px){
+  .about{ grid-template-columns: 1fr; }
+}
+
+/* ==========================================================================
+   7. Services
+   ========================================================================== */
+.services-grid{
+  display:grid; grid-template-columns: repeat(3, 1fr); gap: 1.6rem;
+}
+.service-card{
+  background: var(--color-panel); border:1px solid var(--color-border);
+  padding: 2.4rem 2rem; border-radius: 6px;
+  transition: transform .5s var(--ease), border-color .5s var(--ease);
+  transform-style: preserve-3d;
+}
+.service-card:hover{ border-color: var(--color-gold); }
+.service-card .num{ font-family: var(--font-display); color: var(--color-olive-light); font-size:1rem; }
+.service-card h3{ font-size: 1.3rem; margin-top:.6rem; }
+@media (max-width: 960px){ .services-grid{ grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 640px){ .services-grid{ grid-template-columns: 1fr; } }
+
+/* ==========================================================================
+   8. Showreel
+   ========================================================================== */
+.showreel{ position:relative; }
+.showreel-frame{
+  position:relative; border-radius: 8px; overflow:hidden;
+  aspect-ratio: 16/9;
+  background: #000 url('assets/images/hero-camera.jpg') center/cover;
+  box-shadow: 0 50px 100px -40px rgba(0,0,0,.8);
+}
+.showreel-frame::before{
+  content:""; position:absolute; inset:0; background: linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.65));
+}
+.showreel-play{
+  position:absolute; top:50%; left:50%; transform: translate(-50%,-50%);
+  width: 92px; height: 92px; border-radius:50%;
+  border:1px solid rgba(243,241,232,.6);
+  display:flex; align-items:center; justify-content:center;
+  transition: transform .4s var(--ease), background .4s var(--ease);
+  background: rgba(0,0,0,.25);
+}
+.showreel-play::after{
+  content:""; width:0; height:0; margin-left:5px;
+  border-top: 12px solid transparent; border-bottom: 12px solid transparent;
+  border-left: 20px solid var(--color-text);
+}
+.showreel-play:hover{ transform: translate(-50%,-50%) scale(1.1); background: var(--color-gold); }
+
+/* ==========================================================================
+   9. Equipment (parallax band)
+   ========================================================================== */
+.equipment{
+  position:relative; padding: var(--section-space) 0; overflow:hidden; isolation:isolate;
+}
+.equipment-bg{
+  position:absolute; inset:-15% 0; z-index:-1;
+  background: linear-gradient(180deg, rgba(14,15,11,.55), rgba(14,15,11,.9)), url('assets/images/hero-camera.jpg') center/cover;
+  will-change: transform;
+}
+.equipment-list{ display:grid; grid-template-columns: repeat(2,1fr); gap: 1rem 3rem; margin-top: 2rem; }
+.equipment-list li{
+  display:flex; justify-content:space-between; gap:1rem;
+  padding: .9rem 0; border-bottom: 1px solid var(--color-border);
+  font-size:.95rem;
+}
+.equipment-list li span:first-child{ color: var(--color-text); }
+.equipment-list li span:last-child{ color: var(--color-text-dim); }
+@media (max-width: 700px){ .equipment-list{ grid-template-columns: 1fr; } }
+
+/* ==========================================================================
+   10. Process
+   ========================================================================== */
+.process-grid{ display:grid; grid-template-columns: repeat(4,1fr); gap: 1.6rem; counter-reset: step; }
+.process-step{ position:relative; padding-top: 2.2rem; }
+.process-step::before{
+  counter-increment: step; content: counter(step, decimal-leading-zero);
+  font-family: var(--font-display); font-size: 2.6rem; color: var(--color-olive-light);
+  display:block; margin-bottom: .6rem;
+}
+@media (max-width: 960px){ .process-grid{ grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 560px){ .process-grid{ grid-template-columns: 1fr; } }
+
+/* ==========================================================================
+   11. Testimonials
+   ========================================================================== */
+.testimonial-grid{ display:grid; grid-template-columns: repeat(3,1fr); gap: 1.6rem; }
+.testimonial-card{
+  background: var(--color-panel); border:1px solid var(--color-border); border-radius:6px;
+  padding: 2.2rem;
+}
+.testimonial-card p{ font-style: italic; color: var(--color-text); font-size:1.02rem; }
+.testimonial-name{ display:flex; align-items:center; gap:.9rem; margin-top:1.4rem; }
+.testimonial-name strong{ font-size:.9rem; }
+.testimonial-name span{ font-size:.76rem; color: var(--color-text-dim); text-transform:uppercase; letter-spacing:.08em; }
+.avatar-dot{ width:38px; height:38px; border-radius:50%; background: var(--color-olive); display:flex; align-items:center; justify-content:center; font-family: var(--font-display); }
+@media (max-width: 960px){ .testimonial-grid{ grid-template-columns: 1fr; } }
+
+/* ==========================================================================
+   12. CTA / Contact
+   ========================================================================== */
+.cta{
+  text-align:center; padding: var(--section-space) 0;
+  background: radial-gradient(ellipse at center, rgba(75,83,32,.35), transparent 65%), var(--color-bg-alt);
+}
+.cta h2{ font-size: clamp(2.2rem, 5vw, 3.6rem); max-width: 18ch; margin-inline:auto; }
+.cta .btn{ margin-top: 1rem; }
+.contact-details{ display:flex; justify-content:center; gap: 2.4rem; margin-top: 2.6rem; flex-wrap:wrap; }
+.contact-details a{ font-size: .95rem; border-bottom: 1px solid var(--color-border); padding-bottom:.3em; }
+.contact-details a:hover{ border-color: var(--color-gold); color: var(--color-gold); }
+
+/* ==========================================================================
+   13. Footer
+   ========================================================================== */
+.site-footer{ padding: 3rem 0; border-top: 1px solid var(--color-border); }
+.site-footer .container{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; }
+.footer-social{ display:flex; gap:1.4rem; }
+.footer-social a{ font-size:.78rem; text-transform:uppercase; letter-spacing:.1em; color: var(--color-text-dim); }
+.footer-social a:hover{ color: var(--color-gold); }
+.footer-fine{ font-size:.78rem; color: var(--color-text-dim); }
