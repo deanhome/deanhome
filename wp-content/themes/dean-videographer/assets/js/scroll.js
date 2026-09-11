@@ -64,6 +64,7 @@
 
 	/* ---------- Parallax bands (hero + equipment) ---------- */
 	var heroBg = document.getElementById('hero-bg');
+	var heroPortrait = document.getElementById('hero-portrait');
 	var equipmentBg = document.getElementById('equipment-bg');
 	var ticking = false;
 
@@ -74,6 +75,14 @@
 			var heroSpeed = 0.35;
 			var heroScale = 1.08 + Math.min(y, 800) * 0.00025;
 			heroBg.style.transform = 'translate3d(0,' + y * heroSpeed + 'px,0) scale(' + heroScale + ')';
+		}
+
+		/* Portrait sits on its own depth layer: drifts slower than the
+		   background and tips back slightly, so the hero reads as 3D. */
+		if (heroPortrait && y < window.innerHeight * 1.2) {
+			var p = y / window.innerHeight;
+			heroPortrait.style.transform =
+				'perspective(1200px) translate3d(0,' + -y * 0.12 + 'px,0) rotateX(' + (p * 5).toFixed(2) + 'deg) scale(' + (1 - p * 0.05).toFixed(4) + ')';
 		}
 
 		if (equipmentBg) {

@@ -1,0 +1,5 @@
+# Higgsfield / agent tooling — local dev only, not part of the WordPress theme
+.agents/
+.claude/
+skills-lock.json
+node_modules/

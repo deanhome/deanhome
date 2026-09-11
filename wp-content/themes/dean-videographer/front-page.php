@@ -21,12 +21,18 @@ $theme_uri = get_template_directory_uri();
 			<div class="hero-grain"></div>
 		</div>
 		<div class="container">
-			<p class="hero-kicker"><?php echo esc_html( dean_mod( 'hero_kicker', 'Videographer & Director of Photography' ) ); ?></p>
-			<h1><?php echo wp_kses_post( dean_mod( 'hero_heading', 'Stories, framed in motion.' ) ); ?></h1>
-			<p class="hero-sub"><?php echo esc_html( dean_mod( 'hero_subheading', 'Cinematic video production for brands, weddings and films — crafted with a sharp eye for light, pace and detail.' ) ); ?></p>
-			<div class="hero-cta">
-				<a href="#work" class="btn btn-solid">View Showreel</a>
-				<a href="#contact" class="btn">Book a Project</a>
+			<div class="hero-copy">
+				<p class="hero-kicker"><?php echo esc_html( dean_mod( 'hero_kicker', 'Videographer & Director of Photography' ) ); ?></p>
+				<h1><?php echo wp_kses_post( dean_mod( 'hero_heading', 'Stories, framed in motion.' ) ); ?></h1>
+				<p class="hero-sub"><?php echo esc_html( dean_mod( 'hero_subheading', 'Cinematic video production for brands, weddings and films — crafted with a sharp eye for light, pace and detail.' ) ); ?></p>
+				<div class="hero-cta">
+					<a href="#work" class="btn btn-solid">View Showreel</a>
+					<a href="#contact" class="btn">Book a Project</a>
+				</div>
+			</div>
+			<div class="hero-portrait" id="hero-portrait">
+				<img src="<?php echo esc_url( $theme_uri ); ?>/assets/images/portrait-dean.png" alt="<?php echo esc_attr( dean_mod( 'brand_name', 'Dean' ) ); ?>, videographer and director of photography">
+				<span class="hero-portrait-tag"><?php echo esc_html( dean_mod( 'brand_name', 'DEAN' ) ); ?> &middot; Behind the camera</span>
 			</div>
 		</div>
 		<div class="scroll-cue"><span>Scroll</span><span class="line"></span></div>
