@@ -1,5 +1,9 @@
 # Dean Videographer 3D — WordPress Theme
 
+> This repository also contains **[`serato-analyzer/`](serato-analyzer/README.md)**, a
+> separate cross-platform (macOS / Windows) desktop app for Serato DJ libraries
+> with a Smart Cover Art Finder. It is unrelated to the theme below.
+
 A cinematic, one-page WordPress theme for a videographer / director of
 photography, built around scroll-triggered 3D reveal animations and a
 parallax hero and equipment band.
