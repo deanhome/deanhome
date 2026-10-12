@@ -10,6 +10,11 @@ from typing import Callable
 from .base import APP_DIR_NAME, PlatformServices, Volume
 
 
+def filesystem_root() -> Path:
+    """The resolved root of the filesystem ("/" on macOS)."""
+    return Path(os.path.abspath(os.sep)).resolve()
+
+
 def _default_volume_entries(volumes_root: PurePath) -> list[tuple[PurePath, bool]]:
     """Return ``(mount_point, is_system)`` for each entry in /Volumes.
 
@@ -17,6 +22,7 @@ def _default_volume_entries(volumes_root: PurePath) -> list[tuple[PurePath, bool
     """
     entries: list[tuple[PurePath, bool]] = []
     root = Path(volumes_root)
+    fs_root = filesystem_root()
     try:
         children = sorted(root.iterdir())
     except OSError:
@@ -27,7 +33,7 @@ def _default_volume_entries(volumes_root: PurePath) -> list[tuple[PurePath, bool
         try:
             if not child.is_dir():
                 continue
-            is_system = child.resolve() == Path("/")
+            is_system = child.resolve() == fs_root
         except OSError:
             continue
         entries.append((child, is_system))

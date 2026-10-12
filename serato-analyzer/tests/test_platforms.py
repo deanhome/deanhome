@@ -11,6 +11,7 @@ import pytest
 from serato_analyzer.platforms import (
     LinuxPlatform, MacOSPlatform, SeratoLibrary, WindowsPlatform, platform_class,
 )
+from serato_analyzer.platforms.macos import filesystem_root
 from serato_analyzer.platforms.windows import DRIVE_CDROM, DRIVE_FIXED, DRIVE_REMOTE, DRIVE_REMOVABLE
 
 
@@ -81,7 +82,8 @@ def test_macos_real_volume_listing(tmp_path):
     vols_root = tmp_path / "Volumes"
     (vols_root / "DJ Music").mkdir(parents=True)
     (vols_root / ".hidden").mkdir()
-    (vols_root / "Macintosh HD").symlink_to("/")
+    # The startup disk appears in /Volumes as a directory symlink to the root.
+    (vols_root / "Macintosh HD").symlink_to(filesystem_root(), target_is_directory=True)
     p = MacOSPlatform(home=tmp_path / "home", env={}, volumes_root=vols_root)
     vols = {v.label: v for v in p.list_volumes()}
     assert vols["Macintosh HD"].is_system
