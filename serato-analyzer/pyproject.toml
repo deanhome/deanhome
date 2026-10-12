@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "serato-analyzer"
+version = "0.1.0"
+description = "Cross-platform (macOS / Windows) Serato library tools, including a Smart Cover Art Finder."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Proprietary" }
+dependencies = [
+    "PySide6>=6.6",
+    "mutagen>=1.47",
+    "Pillow>=10.3",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+build = ["pyinstaller>=6.6"]
+
+[project.scripts]
+serato-analyzer-cli = "serato_analyzer.cli:main"
+
+[project.gui-scripts]
+serato-analyzer = "serato_analyzer.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "gui: tests that need a Qt platform plugin (run with QT_QPA_PLATFORM=offscreen)",
+]
